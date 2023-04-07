@@ -1,27 +1,28 @@
-#include <unistd.h>
+// Copyright [2023] <Nazarbek Altybay>
+
 #include <termios.h>
+#include <unistd.h>
+
 #include <cstdlib>
 
 termios orig_termios;
 
-void disableRawMode() {
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
-}
+void disableRawMode() { tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios); }
 
 void enableRawMode() {
-	tcgetattr(STDIN_FILENO, &orig_termios);
-	atexit(disableRawMode);
+  tcgetattr(STDIN_FILENO, &orig_termios);
+  atexit(disableRawMode);
 
-	termios raw = orig_termios;
+  termios raw = orig_termios;
 
-	raw.c_lflag &= ~(ECHO | ICANON);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+  raw.c_lflag &= ~(ECHO | ICANON);
+  tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
 int main() {
-	enableRawMode();
+  enableRawMode();
 
-	char c;
-	while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q');
-	return 0;
+  char c;
+  while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') continue;
+  return 0;
 }
