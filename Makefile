@@ -1,2 +1,2 @@
-kilo: kilo.cpp
-	$(CXX) kilo.cpp -o kilo.out -Wall -Wextra -pedantic -std=c++11
+kilo: src/main.cpp
+	$(CXX) src/main.cpp -o kilo.out -Wall -Wextra -pedantic -std=c++11
